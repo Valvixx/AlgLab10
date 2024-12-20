@@ -35,7 +35,7 @@ void printMatrix(const vector<vector<int>>& matrix) {
 
 vector<int> bfsDistances(const vector<vector<int>>& graph, int start) {
     int size = graph.size();
-    vector<int> distances(size, -1);
+    vector<int> distances(size, INT32_MAX);
     queue<int> q;
 
     q.push(start);
@@ -46,9 +46,10 @@ vector<int> bfsDistances(const vector<vector<int>>& graph, int start) {
         q.pop();
 
         for (int i = 0; i < size; ++i) {
-            if (graph[current][i] > 0 && distances[i] == -1) {
-                distances[i] = distances[current] + graph[current][i];
+            if (graph[current][i] && distances[i] > distances[start] + graph[current][i]) {
                 q.push(i);
+                distances[i] = distances[current] + graph[current][i];
+                
             }
         }
     }
